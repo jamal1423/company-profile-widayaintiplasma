@@ -588,8 +588,9 @@
     
     function blogPreview(element) {
 			var id = $(element).attr('data-id');
+			var bahasa = $(element).attr('data-bahasa');
 			$.ajax({
-				url: "/dashboard/get-data-blog/" + id,
+				url: "/dashboard/get-data-blog/" + id + "/" + bahasa,
 				type: "GET",
 				dataType: "JSON",
 				success: function(data) {
@@ -614,14 +615,17 @@
 
     function blogDel(element) {
 			var id = $(element).attr('data-id');
+			var bahasa = $(element).attr('data-bahasa');
 			$.ajax({
-				url: "/dashboard/get-data-blog/" + id,
+				url: "/dashboard/get-data-blog/" + id + "/" + bahasa,
 				type: "GET",
 				dataType: "JSON",
 				success: function(data) {
           console.log(data)
           var imgElement = $('#img-del');
 					imgElement.empty();
+					
+					$('#bahasa-del').val(bahasa);
 
 					$('#id-del').val(data.id);
 					$('#label-del').text(data.title);

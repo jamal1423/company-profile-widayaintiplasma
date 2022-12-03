@@ -75,14 +75,14 @@
 		
 		<!-- Start header -->
 		<div class="head-bg">
-      @include('frontend.partials.header')
+      @include('frontend.partials.en.header')
 		</div>
 		
     <!-- CONTENT -->
 		@yield('content')
 		
 		<!-- FOOTER -->
-    @include('frontend.partials.footer')
+    @include('frontend.partials.en.footer')
 		
 		<!--jquery,bootstrap-->
 		<script src="{{ asset('frontend/assets/jsmodernizr.js') }}" type="text/javascript"></script>
@@ -116,7 +116,7 @@
 				document.getElementById("th").innerHTML = y;
 
 				$.ajax({
-					url: "/id/get-data-config",
+					url: "/get-data-config",
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {
@@ -139,7 +139,7 @@
 				});
 				
 				$.ajax({
-					url: "/id/get-data-sosmed",
+					url: "/get-data-sosmed",
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {
@@ -157,7 +157,7 @@
 				});
 				
 				$.ajax({
-					url: "/id/get-data-sosmed",
+					url: "/get-data-sosmed",
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {

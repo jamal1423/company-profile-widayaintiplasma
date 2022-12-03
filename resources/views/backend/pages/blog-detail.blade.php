@@ -14,6 +14,17 @@
         <form action="/dashboard/blog-edit" method="post" enctype="multipart/form-data">
           @csrf
           @method('patch')
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="radio" name="bahasa" value="{{ $getBahasa }}" checked>
+            <label class="form-check-label" for="defaultRadio1">
+              @if($getBahasa == "id")
+              Indonesia
+              @else
+              English
+              @endif
+            </label>
+          </div>
+
           <div class="mb-3">
             <label for="nameBasic" class="form-label">Judul</label>
               <input type="hidden" id="idDel" name="id" value="{{ $blogs->id }}">

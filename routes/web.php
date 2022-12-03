@@ -3,6 +3,7 @@
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\FrontendEngController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,19 +17,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [FrontendController::class, 'dashboard']);
-Route::get('/tentang-kami', [FrontendController::class, 'halaman_tentang_kami']);
-Route::get('/galeri', [FrontendController::class, 'halaman_galeri']);
-Route::get('/blog', [FrontendController::class, 'halaman_blog']);
-Route::get('/blog/detail/{slug}', [FrontendController::class, 'halaman_blog_detail']);
-Route::get('/kontak', [FrontendController::class, 'halaman_kontak']);
-Route::get('/produk', [FrontendController::class, 'halaman_produk']);
-Route::get('/karir', [FrontendController::class, 'halaman_karir']);
-Route::get('/produk/kid', [FrontendController::class, 'halaman_produk_kid']);
-Route::get('/produk/men', [FrontendController::class, 'halaman_produk_men']);
-Route::get('/produk/ladies', [FrontendController::class, 'halaman_produk_ladies']);
-Route::get('/get-data-config', [FrontendController::class, 'config_data']);
-Route::get('/get-data-sosmed', [FrontendController::class, 'config_data_sosmed']);
+// BAHASA INGGRIS
+Route::get('/', [FrontendEngController::class, 'dashboard']);
+Route::get('/about-us', [FrontendEngController::class, 'halaman_tentang_kami']);
+Route::get('/gallery', [FrontendEngController::class, 'halaman_galeri']);
+Route::get('/blog', [FrontendEngController::class, 'halaman_blog']);
+Route::get('/blog/detail/{slug}', [FrontendEngController::class, 'halaman_blog_detail']);
+Route::get('/contact', [FrontendEngController::class, 'halaman_kontak']);
+Route::get('/product', [FrontendEngController::class, 'halaman_produk']);
+Route::get('/career', [FrontendEngController::class, 'halaman_karir']);
+Route::get('/product/kid', [FrontendEngController::class, 'halaman_produk_kid']);
+Route::get('/product/men', [FrontendEngController::class, 'halaman_produk_men']);
+Route::get('/product/ladies', [FrontendEngController::class, 'halaman_produk_ladies']);
+Route::get('/get-data-config', [FrontendEngController::class, 'config_data']);
+Route::get('/get-data-sosmed', [FrontendEngController::class, 'config_data_sosmed']);
+
+// BAHASA INDONESIA
+Route::get('/id', [FrontendController::class, 'dashboard']);
+Route::get('/id/tentang-kami', [FrontendController::class, 'halaman_tentang_kami']);
+Route::get('/id/galeri', [FrontendController::class, 'halaman_galeri']);
+Route::get('/id/blog', [FrontendController::class, 'halaman_blog']);
+Route::get('/id/blog/detail/{slug}', [FrontendController::class, 'halaman_blog_detail']);
+Route::get('/id/kontak', [FrontendController::class, 'halaman_kontak']);
+Route::get('/id/produk', [FrontendController::class, 'halaman_produk']);
+Route::get('/id/karir', [FrontendController::class, 'halaman_karir']);
+Route::get('/id/produk/kid', [FrontendController::class, 'halaman_produk_kid']);
+Route::get('/id/produk/men', [FrontendController::class, 'halaman_produk_men']);
+Route::get('/id/produk/ladies', [FrontendController::class, 'halaman_produk_ladies']);
+Route::get('/id/get-data-config', [FrontendController::class, 'config_data']);
+Route::get('/id/get-data-sosmed', [FrontendController::class, 'config_data_sosmed']);
 
 //PANEL ADMIN
 Route::get('/panel', [LoginController::class, 'login_admin'])->name('login')->middleware('guest');
@@ -46,8 +63,8 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/dashboard/blog',[BackendController::class, 'blog_admin']);
   Route::post('/dashboard/blog-tambah',[BackendController::class, 'blog_admin_tambah']);
-  Route::get('/dashboard/get-data-blog/{id}', [BackendController::class, 'get_data_blog']);
-  Route::get('/dashboard/blog/detail/{id}', [BackendController::class, 'blog_admin_detail']);
+  Route::get('/dashboard/get-data-blog/{id}/{bahasa}', [BackendController::class, 'get_data_blog']);
+  Route::get('/dashboard/blog/detail/{id}/{bahasa}', [BackendController::class, 'blog_admin_detail']);
   Route::patch('/dashboard/blog-edit', [BackendController::class, 'blog_admin_edit']);
   Route::delete('/dashboard/blog-delete', [BackendController::class, 'blog_admin_delete']);
 
@@ -79,7 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/dashboard/setting-about-us',[BackendController::class, 'about_us_admin']);
   Route::post('/dashboard/setting-about-us-tambah',[BackendController::class, 'about_us_admin_tambah']);
-  Route::get('/dashboard/setting-about-us/detail/{id}', [BackendController::class, 'about_us_admin_detail']);
+  Route::get('/dashboard/setting-about-us/detail/{id}/{bahasa}', [BackendController::class, 'about_us_admin_detail']);
   Route::patch('/dashboard/setting-about-us-edit', [BackendController::class, 'about_us_admin_edit']);
   Route::delete('/dashboard/setting-about-us-delete', [BackendController::class, 'about_us_admin_delete']);
 

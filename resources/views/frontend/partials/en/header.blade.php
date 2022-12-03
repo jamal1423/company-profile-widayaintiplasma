@@ -23,11 +23,11 @@
             <p><a href="mailto:marketing@widayaintiplasma.com">marketing@widayaintiplasma.com</a><br>&nbsp;</p>
           </li>
           <li class="hb">
-            <h5>PUSAT LAYANAN</h5>
+            <h5>CALL SUPPORT</h5>
             <p>+6231-7886582<br>&nbsp;&nbsp;</p>
           </li>
           <li class="hb">
-            <h5>JAM KERJA</h5>
+            <h5>WORKING HOURS</h5>
             <p>Sen - Jum : 08:00 - 16:00<br>
               Sab : 08:00 - 13:00
             </p>
@@ -51,18 +51,18 @@
         <a class="rm-toggle rm-button rm-nojs" href="#">Menu</a>
         <nav class="rm-nav rm-nojs rm-lighten">
           <ul>
-            <li class="{{Request::is('id') ? 'active' : '' }}"><a href="/id">Beranda</a></li>
-            <li class="{{Request::is('id/tentang-kami') ? 'active' : '' }}"><a href="/id/tentang-kami">Tentang Kami</a></li>
-            <li class="{{Request::is('id/produk') ? 'active' : '' }}"><a href="/id/produk">Produk<i class="fa fa-angle-down"></i></a>
+            <li class="{{Request::is('/') ? 'active' : '' }}"><a href="/">Home</a></li>
+            <li class="{{Request::is('about-us') ? 'active' : '' }}"><a href="/about-us">About Us</a></li>
+            <li class="{{Request::is('product') ? 'active' : '' }}"><a href="/product">Product<i class="fa fa-angle-down"></i></a>
               <ul>
-                <li class="{{Request::is('id/produk/kid') ? 'active' : '' }}"><a href="/id/produk/kid">Anak</a></li>
-                <li class="{{Request::is('id/produk/men') ? 'active' : '' }}"><a href="/id/produk/men">Pria</a></li>
-                <li class="{{Request::is('id/produk/ladies') ? 'active' : '' }}"><a href="/id/produk/ladies">Wanita</a></li>
+                <li class="{{Request::is('product/kid') ? 'active' : '' }}"><a href="/product/kid">Kid</a></li>
+                <li class="{{Request::is('product/men') ? 'active' : '' }}"><a href="/product/men">Men</a></li>
+                <li class="{{Request::is('product/ladies') ? 'active' : '' }}"><a href="/product/ladies">Ladies</a></li>
               </ul>
             </li>
-            <li class="{{Request::is('id/galeri') ? 'active' : '' }}"><a href="/id/galeri">Galeri</a></li>
-            <li class="@if(Request::is('id/blog') || Request::is('/idblog/*')) active @else @endif"><a href="/id/blog">Blog</a></li>
-            <li class="{{Request::is('id/kontak') ? 'active' : '' }}"><a href="/id/kontak">Kontak</a></li>
+            <li class="{{Request::is('gallery') ? 'active' : '' }}"><a href="/gallery">Gallery</a></li>
+            <li class="@if(Request::is('blog') || Request::is('blog/*')) active @else @endif"><a href="/blog">Blog</a></li>
+            <li class="{{Request::is('contact') ? 'active' : '' }}"><a href="/contact">Contact</a></li>
           </ul>
         </nav>
       </div><!-- .rm-container -->

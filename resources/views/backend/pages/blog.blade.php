@@ -9,46 +9,114 @@
 </button>
 
 <div class="row mb-5">
-  @forelse($dataBlog as $key=>$blog)
-    <div class="col-md-6">
-      <div class="card mb-3">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img class="card-img card-img-left" style="height: -webkit-fill-available;" src="{{ asset('gambar-blog/'.$blog->foto) }}" alt="Card image">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{ $blog->title }}</h5>
-              <p class="card-text">
-                {{ Str::words(strip_tags($blog->deskripsi), 6, ' [...]') }}
-              </p>
-              <p class="card-text"><small class="text-muted">{{ date('d-m-Y H:i:s', strtotime($blog->tglBerita)) }}</small></p>
-              
-              <div class="btn-group" role="group" aria-label="First group">
-                <button type="button" class="btn btn-outline-secondary" id="blog-edit-{{ $blog->id }}" onClick="blogPreview(this)" data-id="{{ $blog->id }}"><i class="bx bx-show text-success"></i></button>
-                <button type="button" class="btn btn-outline-secondary"><a href="/dashboard/blog/detail/{{ base64_encode( $blog->id ) }}"><i class="bx bxs-message-square-edit text-info"></i></a></button>
-                <button type="button" class="btn btn-outline-secondary" id="blog-delete-{{ $blog->id }}" onClick="blogDel(this)" data-id="{{ $blog->id }}"><i class="bx bxs-message-square-x text-danger"></i></button>
+  <div class="col-xl-12 col-12">
+    <div class="nav-align-top mb-4">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-indonesia" aria-controls="navs-top-indonesia" aria-selected="true">Indonesia</button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-english" aria-controls="navs-top-english" aria-selected="false">English</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="navs-top-indonesia" role="tabpanel">
+          @forelse($dataBlog as $key=>$blog)
+          <div class="row">
+            <div class="col-md-12 col-12">
+              <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img class="card-img card-img-left" style="height: -webkit-fill-available;" src="{{ asset('gambar-blog/'.$blog->foto) }}" alt="Card image">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ $blog->title }}</h5>
+                      <p class="card-text">
+                        {{ Str::words(strip_tags($blog->deskripsi), 15, ' [...]') }}
+                      </p>
+                      <p class="card-text"><small class="text-muted">{{ date('d-m-Y H:i:s', strtotime($blog->tglBerita)) }}</small></p>
+                      
+                      <div class="btn-group" role="group" aria-label="First group">
+                        <button type="button" class="btn btn-outline-secondary" id="blog-edit-{{ $blog->id }}" onClick="blogPreview(this)" data-id="{{ $blog->id }}" data-bahasa="id"><i class="bx bx-show text-success"></i></button>
+                        <button type="button" class="btn btn-outline-secondary"><a href="/dashboard/blog/detail/{{ base64_encode( $blog->id ) }}/{{ base64_encode('id') }}"><i class="bx bxs-message-square-edit text-info"></i></a></button>
+                        <button type="button" class="btn btn-outline-secondary" id="blog-delete-{{ $blog->id }}" onClick="blogDel(this)" data-id="{{ $blog->id }}" data-bahasa="id"><i class="bx bxs-message-square-x text-danger"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  @empty
-    <div class="col-md-12">
-      <div class="row g-0">
-        <div class="alert alert-secondary" role="alert">
-          Data tidak ditemukan.
-        </div>
-      </div>
-    </div>
-  @endforelse
-</div>
+          @empty
+          <div class="ro">
+            <div class="col-md-12">
+              <div class="row g-0">
+                <div class="alert alert-secondary" role="alert">
+                  Data tidak ditemukan.
+                </div>
+              </div>
+            </div>
+          </div>
+          @endforelse
 
-<div class="demo-inline-spacing">
-  <nav aria-label="Page navigation">
-    {{ $dataBlog->links('pagination::bootstrap-5') }}
-  </nav>
+          <div class="demo-inline-spacing">
+            <nav aria-label="Page navigation">
+              {{ $dataBlog->links('pagination::bootstrap-5') }}
+            </nav>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="navs-top-english" role="tabpanel">
+          @forelse($dataBlogEn as $keys=>$blogEn)
+          <div class="row">
+            <div class="col-md-12 col-12">
+              <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img class="card-img card-img-left" style="height: -webkit-fill-available;" src="{{ asset('gambar-blog/'.$blogEn->foto) }}" alt="Card image">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ $blogEn->title }}</h5>
+                      <p class="card-text">
+                        {{ Str::words(strip_tags($blogEn->deskripsi), 15, ' [...]') }}
+                      </p>
+                      <p class="card-text"><small class="text-muted">{{ date('d-m-Y H:i:s', strtotime($blogEn->tglBerita)) }}</small></p>
+                      
+                      <div class="btn-group" role="group" aria-label="First group">
+                        <button type="button" class="btn btn-outline-secondary" id="blog-edit-{{ $blogEn->id }}" onClick="blogPreview(this)" data-id="{{ $blogEn->id }}" data-bahasa="en"><i class="bx bx-show text-success"></i></button>
+                        <button type="button" class="btn btn-outline-secondary"><a href="/dashboard/blog/detail/{{ base64_encode( $blogEn->id ) }}/{{ base64_encode('en') }}"><i class="bx bxs-message-square-edit text-info"></i></a></button>
+                        <button type="button" class="btn btn-outline-secondary" id="blog-delete-{{ $blogEn->id }}" onClick="blogDel(this)" data-id="{{ $blogEn->id }}" data-bahasa="en"><i class="bx bxs-message-square-x text-danger"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          @empty
+          <div class="ro">
+            <div class="col-md-12">
+              <div class="row g-0">
+                <div class="alert alert-secondary" role="alert">
+                  Data tidak ditemukan.
+                </div>
+              </div>
+            </div>
+          </div>
+          @endforelse
+
+          <div class="demo-inline-spacing">
+            <nav aria-label="Page navigation">
+              {{ $dataBlogEn->links('pagination::bootstrap-5') }}
+            </nav>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {{-- TOAST NOTIFIKASI --}}
@@ -87,9 +155,30 @@
         <h5 class="modal-title" id="exampleModalLabel1">Tambah Blog</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
       <form action="/dashboard/blog-tambah" method="post" enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
+          <div class="row">
+            <label for="nameBasic" class="form-label">Bahasa</label>
+            <div class="col mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="bahasa" value="id">
+                <label class="form-check-label" for="defaultRadio1">
+                  Indonesia
+                </label>
+              </div>
+            </div>
+            <div class="col mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="bahasa" value="en">
+                <label class="form-check-label" for="defaultRadio1">
+                  English
+                </label>
+              </div>
+            </div>
+          </div>
+          
           <div class="row">
             <div class="col mb-3">
               <label for="nameBasic" class="form-label">Judul</label>
@@ -103,7 +192,6 @@
           <div class="row">
             <div class="col mb-3">
               <label for="nameBasic" class="form-label">Deskripsi</label>
-              <!-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="deskripsi">{{ old('deskripsi') }}</textarea> -->
               <input id="x" type="hidden" name="deskripsi" value="{{ old('deskripsi') }}">
               <trix-editor input="x"></trix-editor>
               @error('deskripsi')
@@ -123,7 +211,6 @@
               @enderror
             </div>
           </div>
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
@@ -179,8 +266,7 @@
               <div id="img-del" style="margin-top:20px;"></div>
               <input type="hidden" id="id-del" name="id_del">
               <input type="hidden" name="oldImage_del" id="oldImage-del">
-              <!-- <button type="button" class="btn btn-outline-secondary mt-2" data-bs-dismiss="modal">Batal</button>
-              <button type="submit" class="btn btn-danger mt-2">Hapus</button> -->
+              <input type="hidden" id="bahasa-del" name="bahasa">
             </div>
           </div>
           <div class="row">

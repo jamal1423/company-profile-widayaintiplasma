@@ -13,13 +13,13 @@
         </div>
         <div class="col-md-3 col-sm-6">
           <div class="widget">
-            <h5 class="f-title">Link Terkait</h5>
+            <h5 class="f-title">Useful Links</h5>
             <div class="f-text">
               <ul>
-                <li><a href="/tentang-kami">Tentang Kami</a></li>
-                <li><a href="/produk">Produk</a></li>
-                <li><a href="/kontak">Kontak</a></li>
-                <li><a href="/karir">Karir</a></li>
+                <li><a href="/about-us">About Us</a></li>
+                <li><a href="/product">Product</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/career">Career</a></li>
                 <li><a href="https://trekkersshoes.com" target="_blank">Web Store</a></li>
               </ul>
             </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-3 col-sm-6">
           <div class="widget">
-            <h5 class="f-title">Lokasi</h5>
+            <h5 class="f-title">Location</h5>
             <div class="f-content">
               <ul>
                 <li><i class="fa fa-map-marker"></i>Jl. Industri Bringin Bendo No. 8. Taman, Sidoarjo, Indonesia</li>

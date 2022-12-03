@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\AboutUs;
+use App\Models\AboutUsEn;
 use App\Models\Blog;
+use App\Models\BlogEn;
 use App\Models\Galeri;
 use App\Models\HomeFotoAbout;
 use App\Models\Karir;
 use App\Models\Produk;
 use App\Models\Profil;
+use App\Models\ProfilEn;
 use App\Models\Slider;
 use App\Models\Url;
 use App\Models\User;
@@ -20,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class BackendController extends Controller
 {
@@ -130,8 +134,10 @@ class BackendController extends Controller
     {
         try {
             $dataBlog = Blog::paginate(10);
+            $dataBlogEn = BlogEn::paginate(10);
             return view('backend.pages.blog',[
             'dataBlog' => $dataBlog,
+            'dataBlogEn' => $dataBlogEn
             ]);
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/dashboard/blog')->with('blog-error', 'Error, Ulangi proses!');
@@ -150,27 +156,56 @@ class BackendController extends Controller
 
             if ($request->hasFile('foto')) {
                 $image = $request->file('foto');
-                $name = date('mdYHis') .'-'. uniqid() .'-'. $image->getClientOriginalName();
+                if($request->bahasa == "id")
+                {
+                    $name = "img-id-".date('mdYHis') .'-'. uniqid() .'-'. $image->getClientOriginalName();
+                }
+                else
+                {
+                    $name = "img-en-".date('mdYHis') .'-'. uniqid() .'-'. $image->getClientOriginalName();
+                }
                 $image->move(public_path() . '/gambar-blog/', $name);
                 $validatedData['foto'] = $name;
             }
 
-            // $validatedData['userlog'] = auth()->user()->username;
             $validatedData['tglBerita'] = Carbon::now();
-            $validatedData['userlog'] = 'jamal';
-            $validatedData['slug'] = SlugService::createSlug(Blog::class, 'slug', $request->title);
+            $validatedData['userlog'] = auth()->user()->username;
 
-            Blog::create($validatedData);
+            if($request->bahasa == "id")
+            {
+                $validatedData['slug'] = SlugService::createSlug(Blog::class, 'slug', $request->title);
+                Blog::create($validatedData);
+            }
+            else
+            {
+                $validatedData['slug'] = SlugService::createSlug(BlogEn::class, 'slug', $request->title);
+                BlogEn::create($validatedData);
+            }
+
             return redirect('/dashboard/blog')->with('blog-tambah', 'Blog baru berhasil ditambahkan!');
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/dashboard/blog')->with('blog-error', 'Error, Ulangi proses!');
         }
     }
 
-    public function get_data_blog($id)
+    public function get_data_blog($id,$bahasa)
     {
-        $blogData = Blog::findOrFail($id);
+        if($bahasa == "id")
+        {
+            $blogData = Blog::findOrFail($id);
+        }
+        else
+        {
+            $blogData = BlogEn::findOrFail($id);
+        }
+        
         return response()->json($blogData);
+    }
+    
+    public function get_data_blog_en($id)
+    {
+        $blogDataEn = BlogEn::findOrFail($id);
+        return response()->json($blogDataEn);
     }
 
     public function blog_admin_edit(Request $request)
@@ -198,30 +233,52 @@ class BackendController extends Controller
                 $validatedData['foto'] = $name;
             }
 
-            if ($request->oldTitle != $request->title) {
-                $validatedData['slug'] = SlugService::createSlug(Blog::class, 'slug', $request->title);
-            }
-
             $validatedData['tglBerita'] = Carbon::now();
-            $validatedData['userlog'] = 'jamal';
+            $validatedData['userlog'] = auth()->user()->username;
 
-            Blog::where('id', $request->id)
+            if($request->bahasa == "id")
+            {
+                if ($request->oldTitle != $request->title) {
+                    $validatedData['slug'] = SlugService::createSlug(Blog::class, 'slug', $request->title);
+                }
+    
+                Blog::where('id', $request->id)
                 ->update($validatedData);
-            return redirect('/dashboard/blog/detail/'.base64_encode($request->id))->with('blog-edit', 'Blog berhasil diubah!');
+            }
+            else
+            {
+                if ($request->oldTitle != $request->title) {
+                    $validatedData['slug'] = SlugService::createSlug(BlogEn::class, 'slug', $request->title);
+                }
+    
+                BlogEn::where('id', $request->id)
+                ->update($validatedData);
+            }
+            return redirect('/dashboard/blog/detail/'.base64_encode($request->id).'/'.base64_encode($request->bahasa))->with('blog-edit', 'Blog berhasil diubah!');
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('/dashboard/blog/detail/'.base64_encode($request->id))->with('blog-error', 'Error, Ulangi proses!');
+            return redirect('/dashboard/blog/detail/'.base64_encode($request->id).'/'.base64_encode($request->bahasa))->with('blog-error', 'Error, Ulangi proses!');
         }
     }
 
-    public function blog_admin_detail($id)
+    public function blog_admin_detail($id, $bahasa)
     {
         $getID = base64_decode($id);
-        $blogs = Blog::findOrFail($getID);
+        $getBahasa = base64_decode($bahasa);
+        if($getBahasa == "id")
+        {
+            $blogs = Blog::findOrFail($getID);
+        }
+        else
+        {
+            $blogs = BlogEn::findOrFail($getID);
+        }
+        
         return view('backend.pages.blog-detail', [
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'getBahasa' => $getBahasa
         ]);
     }
-
+    
     public function blog_admin_delete(Request $request)
     {
         try {
@@ -231,7 +288,14 @@ class BackendController extends Controller
                 File::delete($image_path);
             }
 
-            Blog::destroy($request->id_del);
+            if($request->bahasa == "id")
+            {
+                Blog::destroy($request->id_del);
+            }
+            else
+            {
+                BlogEn::destroy($request->id_del);
+            }
             return redirect('/dashboard/blog')->with('blog-delete', 'Blog berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/dashboard/blog')->with('blog-error', 'Error, silahkan ulangi proses!');
@@ -599,28 +663,45 @@ class BackendController extends Controller
     }
     
     public function about_us_admin()
-    {
-        if(auth()->user()->hak_akses == 'Administrator' || auth()->user()->hak_akses == 'Mrkt')
-        {
-            $aboutUs = AboutUs::all();
-            return view('backend.pages.about-us',[
-                'aboutUs' => $aboutUs
-            ]);
-        }
-        else
-        {
-            return redirect('/dashboard');
+    {   
+        try{
+            if(auth()->user()->hak_akses == 'Administrator' || auth()->user()->hak_akses == 'Mrkt')
+            {
+                $aboutUs = AboutUs::all();
+                $aboutUsEn = AboutUsEn::all();
+
+                return view('backend.pages.about-us',[
+                    'aboutUs' => $aboutUs,
+                    'aboutUsEn' => $aboutUsEn
+                ]);
+            }
+            else
+            {
+                return redirect('/dashboard');
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect('/dashboard/setting-about-us')->with('about-us-error', 'Error, Ulangi proses!');
         }
     }
 
-    public function about_us_admin_detail($id)
+    public function about_us_admin_detail($id,$bahasa)
     {
         if(auth()->user()->hak_akses == 'Administrator' || auth()->user()->hak_akses == 'Mrkt')
         {
+            $getBahasa = base64_decode($bahasa);
             $getID = base64_decode($id);
-            $aboutUs = AboutUs::findOrFail($getID);
+            if($getBahasa == "id")
+            {
+                $aboutUs = AboutUs::findOrFail($getID);
+            }
+            else
+            {
+                $aboutUs = AboutUsEn::findOrFail($getID);
+            }
+            
             return view('backend.pages.about-us-detail', [
-                'aboutUs' => $aboutUs
+                'aboutUs' => $aboutUs,
+                'getBahasa' => $getBahasa
             ]);
         }
         else
@@ -656,11 +737,20 @@ class BackendController extends Controller
                     $validatedData['foto'] = $name;
                 }
 
-                AboutUs::where('id', $request->id)
+                if($request->bahasa == "id")
+                {
+                    AboutUs::where('id', $request->id)
                     ->update($validatedData);
-                return redirect('/dashboard/setting-about-us/detail/'.base64_encode($request->id))->with('about-us-edit', 'About-Us berhasil diubah!');
+                }
+                else
+                {
+                    AboutUsEn::where('id', $request->id)
+                    ->update($validatedData);
+                }
+
+                return redirect('/dashboard/setting-about-us/detail/'.base64_encode($request->id).'/'.base64_encode($request->bahasa))->with('about-us-edit', 'About-Us berhasil diubah!');
             } catch (\Illuminate\Database\QueryException $e) {
-                return redirect('/dashboard/setting-about-us/detail/'.base64_encode($request->id))->with('about-us-error', 'Error, Ulangi proses!');
+                return redirect('/dashboard/setting-about-us/detail/'.base64_encode($request->id).'/'.base64_encode($request->bahasa))->with('about-us-error', 'Error, Ulangi proses!');
             }
         }
         else
@@ -671,16 +761,22 @@ class BackendController extends Controller
     
     public function profile_admin()
     {
-        if(auth()->user()->hak_akses == 'Administrator' || auth()->user()->hak_akses == 'Mrkt')
-        {
-            $dataProfil = Profil::all();
-            return view('backend.pages.profile',[
-                'dataProfil' => $dataProfil
-            ]);
-        }
-        else
-        {
-            return redirect('/dashboard');
+        try{
+            if(auth()->user()->hak_akses == 'Administrator' || auth()->user()->hak_akses == 'Mrkt')
+            {
+                $dataProfil = Profil::all();
+                $dataProfilEn = ProfilEn::all();
+                return view('backend.pages.profile',[
+                    'dataProfil' => $dataProfil,
+                    'dataProfilEn' => $dataProfilEn
+                ]);
+            }
+            else
+            {
+                return redirect('/dashboard');
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect('/dashboard/setting-profile')->with('profil-error', 'Error, Ulangi proses!');
         }
     }
     
@@ -718,8 +814,16 @@ class BackendController extends Controller
                     'jns_bisnis_lain' => '',
                 ]);
 
-                Profil::where('id', $request->id)
+                if($request->bahasaDefault == "id")
+                {
+                    Profil::where('id', $request->id)
                     ->update($validatedData);
+                }
+                else
+                {
+                    ProfilEn::where('id', $request->id)
+                    ->update($validatedData);
+                }
                 return redirect('/dashboard/setting-profile')->with('profil-edit', 'Profil berhasil diubah!');
             } catch (\Illuminate\Database\QueryException $e) {
                 return redirect('/dashboard/setting-profile')->with('profil-error', 'Error, Ulangi proses!');

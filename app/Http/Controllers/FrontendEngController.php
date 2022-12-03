@@ -2,33 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AboutUs;
-use App\Models\Blog;
-use App\Models\DataConfig;
+use App\Models\AboutUsEn;
+use App\Models\BlogEn;
+use App\Models\DataConfigEn;
 use App\Models\Galeri;
 use App\Models\HomeFotoAbout;
 use App\Models\Karir;
 use App\Models\Produk;
-use App\Models\Profil;
+use App\Models\ProfilEn;
 use App\Models\Slider;
 use App\Models\Url;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\DB;
 
-class FrontendController extends Controller
+class FrontendEngController extends Controller
 {
     public function dashboard()
     {
-       $dataConfig = DataConfig::all();
+       $dataConfig = DataConfigEn::all();
        $homeAboutFoto = HomeFotoAbout::all();
-       $aboutUs = AboutUs::all();
+       $aboutUs = AboutUsEn::all();
        $dataGaleri =  DB::table('tbl_galeri')->take(4)->get();
-       $dataBlog = DB::table('tbl_berita')->take(3)->get();
+       $dataBlog = DB::table('tbl_berita_en')->take(3)->get();
        $fotoSlider = Slider::all();
         // dd($dataConfig);
 
-        return view('frontend.pages.dashboard',[
+        return view('frontend.pages.en.dashboard',[
             'dataConfig' => $dataConfig,
             'homeAboutFoto' => $homeAboutFoto,
             'aboutUs' => $aboutUs,
@@ -41,7 +40,7 @@ class FrontendController extends Controller
 
     public function config_data()
     {
-        $dataConfig = DataConfig::where('id','=',1)->get();
+        $dataConfig = DataConfigEn::where('id','=',1)->get();
         // dd($dataConfig);
         return response()->json($dataConfig);
     }
@@ -56,9 +55,9 @@ class FrontendController extends Controller
 
     public function halaman_tentang_kami()
     {
-        $dataAboutUs = AboutUs::all();
-        $dataProfil = Profil::all();
-        return view('frontend.pages.tentang-kami',[
+        $dataAboutUs = AboutUsEn::all();
+        $dataProfil = ProfilEn::all();
+        return view('frontend.pages.en.tentang-kami',[
             'dataAboutUs' => $dataAboutUs,
             'dataProfil' => $dataProfil
         ]);
@@ -67,16 +66,16 @@ class FrontendController extends Controller
     public function halaman_galeri()
     {
         $dataGaleri = Galeri::all();
-        return view('frontend.pages.galeri',[
+        return view('frontend.pages.en.galeri',[
             'dataGaleri' => $dataGaleri
         ]);
     }
 
     public function halaman_blog()
     {
-        $dataBlog = Blog::all();
-        $blogLimit = DB::table('tbl_berita')->take(5)->get();
-        return view('frontend.pages.blog',[
+        $dataBlog = BlogEn::all();
+        $blogLimit = DB::table('tbl_berita_en')->take(5)->get();
+        return view('frontend.pages.en.blog',[
             'dataBlog' => $dataBlog,
             'blogLimit' => $blogLimit
         ]);
@@ -84,11 +83,11 @@ class FrontendController extends Controller
 
     public function halaman_blog_detail($slug)
     {
-        $singleBlog = Blog::where('slug','=',$slug)->get();
+        $singleBlog = BlogEn::where('slug','=',$slug)->get();
         // dd($singleBlog);
-        $blogLimit = DB::table('tbl_berita')->take(5)->get();
-        $baseUrl="https://widayaintiplasma.com/id/blog/detail/";
-        return view('frontend.pages.blog-detail', [
+        $blogLimit = DB::table('tbl_berita_en')->take(5)->get();
+        $baseUrl="https://widayaintiplasma.com/blog/detail/";
+        return view('frontend.pages.en.blog-detail', [
             'singleBlog' => $singleBlog,
             'blogLimit' => $blogLimit,
             'baseUrl' => $baseUrl
@@ -98,7 +97,7 @@ class FrontendController extends Controller
     public function halaman_produk()
     {
         $dataProduk = Produk::paginate(16);
-        return view('frontend.pages.produk',[
+        return view('frontend.pages.en.produk',[
             'dataProduk' => $dataProduk
         ]);
     }
@@ -106,7 +105,7 @@ class FrontendController extends Controller
     public function halaman_karir()
     {
         $dataKarir = Karir::all();
-        return view('frontend.pages.karir',[
+        return view('frontend.pages.en.karir',[
             'dataKarir' => $dataKarir
         ]);
     }
@@ -114,7 +113,7 @@ class FrontendController extends Controller
     public function halaman_produk_kid()
     {
         $produkKid = DB::table('tbl_produk')->where('tipe_produk','=','Kid')->paginate(16);
-        return view('frontend.pages.produk',[
+        return view('frontend.pages.en.produk',[
             'produkKid' => $produkKid
         ]);
     }
@@ -122,7 +121,7 @@ class FrontendController extends Controller
     public function halaman_produk_men()
     {
         $produkMen = DB::table('tbl_produk')->where('tipe_produk','=','Men')->paginate(16);
-        return view('frontend.pages.produk',[
+        return view('frontend.pages.en.produk',[
             'produkMen' => $produkMen
         ]);
     }
@@ -130,13 +129,13 @@ class FrontendController extends Controller
     public function halaman_produk_ladies()
     {
         $produkLadies = DB::table('tbl_produk')->where('tipe_produk','=','Ladies')->paginate(16);
-        return view('frontend.pages.produk',[
+        return view('frontend.pages.en.produk',[
             'produkLadies' => $produkLadies
         ]);
     }
 
     public function halaman_kontak()
     {
-        return view('frontend.pages.kontak');
+        return view('frontend.pages.en.kontak');
     }
 }

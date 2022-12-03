@@ -5,51 +5,115 @@
   <span class="text-muted fw-light">Admin /</span> About Us
 </h4>
 <div class="row mb-5">
-  @forelse($aboutUs as $about)
-  <div class="col-md-6 col-lg-7 mb-3">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('gambar-about-us/'.$about->foto) }}" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">About Us</h5>
-        <p class="card-text">
-        {{ Str::words(strip_tags($about->deskripsi), 50, ' [...]') }}
-        </p>
-        <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-        <a href="/dashboard/setting-about-us/detail/{{ base64_encode($about->id) }}"><button type="button" class="btn btn-outline-secondary"><i class="bx bxs-message-square-edit text-info"></i></i></button></a>
-      </div>
-    </div>
-  </div>
 
-  <div class="col-md-6 col-lg-5 mb-3">
-    <div class="card">
-      <h5 class="card-header">Visi</h5>
-      <div class="card-body">
-        <blockquote class="blockquote mb-0">
-          <p>
-            {!! $about->visi !!}
-          </p>
-        </blockquote>
-      </div>
-      
-      <h5 class="card-header">Misi</h5>
-      <div class="card-body">
-        <blockquote class="blockquote mb-0">
-          <p>
-            {!! $about->misi !!}
-          </p>
-        </blockquote>
+  <div class="col-xl-12 col-12">
+    <div class="nav-align-top mb-4">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-indonesia" aria-controls="navs-top-indonesia" aria-selected="true">Indonesia</button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-english" aria-controls="navs-top-english" aria-selected="false">English</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="navs-top-indonesia" role="tabpanel">
+          @forelse($aboutUs as $about)
+          <div class="col-md-6 col-lg-12 mb-3">
+            <div class="card h-100">
+              <img class="card-img-top" src="{{ asset('gambar-about-us/'.$about->foto) }}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Tentang Kami</h5>
+                <p class="card-text">
+                {{ Str::words(strip_tags($about->deskripsi), 50, ' [...]') }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-12 mb-3">
+            <div class="card">
+              <h5 class="card-header">Visi</h5>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>
+                    {!! $about->visi !!}
+                  </p>
+                </blockquote>
+              </div>
+              
+              <h5 class="card-header">Misi</h5>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>
+                    {!! $about->misi !!}
+                  </p>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+
+          <a href="/dashboard/setting-about-us/detail/{{ base64_encode($about->id) }}/{{ base64_encode('id') }}"><button type="button" class="btn btn-outline-secondary"><i class="bx bxs-message-square-edit text-info"></i> Edit</button></a>
+          @empty
+          <div class="col-md-12">
+            <div class="row g-0">
+              <div class="alert alert-secondary" role="alert">
+                Data tidak ditemukan.
+              </div>
+            </div>
+          </div>
+          @endforelse
+        </div>
+        <div class="tab-pane fade" id="navs-top-english" role="tabpanel">
+          @forelse($aboutUsEn as $aboutEn)
+          <div class="col-md-6 col-lg-12 mb-3">
+            <div class="card h-100">
+              <img class="card-img-top" src="{{ asset('gambar-about-us/'.$aboutEn->foto) }}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">About Us</h5>
+                <p class="card-text">
+                {{ Str::words(strip_tags($aboutEn->deskripsi), 50, ' [...]') }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-12 mb-3">
+            <div class="card">
+              <h5 class="card-header">Vision</h5>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>
+                    {!! $aboutEn->visi !!}
+                  </p>
+                </blockquote>
+              </div>
+              
+              <h5 class="card-header">Mission</h5>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>
+                    {!! $aboutEn->misi !!}
+                  </p>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+
+          <a href="/dashboard/setting-about-us/detail/{{ base64_encode($aboutEn->id) }}/{{ base64_encode('en') }}"><button type="button" class="btn btn-outline-secondary"><i class="bx bxs-message-square-edit text-info"></i> Edit</button></a>
+          @empty
+          <div class="col-md-12">
+            <div class="row g-0">
+              <div class="alert alert-secondary" role="alert">
+                Data tidak ditemukan.
+              </div>
+            </div>
+          </div>
+          @endforelse
+        </div>
       </div>
     </div>
   </div>
-  @empty
-  <div class="col-md-12">
-    <div class="row g-0">
-      <div class="alert alert-secondary" role="alert">
-        Data tidak ditemukan.
-      </div>
-    </div>
-  </div>
-  @endforelse
 </div>
 
 <!-- Modal -->
