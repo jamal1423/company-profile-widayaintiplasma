@@ -64,7 +64,7 @@
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="g-icon">
-								<a href="/kontak">Lokasi<span>|</span><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+								<a href="/contact">Location<span>|</span><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
 							</div>
 						</div>
 					</div>

@@ -22,7 +22,7 @@
   <div class="container">
     <div class="gallery3">
       <ul>
-        @if(Request::is('produk'))
+        @if(Request::is('id/produk'))
           @foreach($dataProduk as $produk)
           <li>
             <div class="contain">
@@ -41,7 +41,7 @@
           @endforeach
         @endif
         
-        @if(Request::is('produk/kid'))
+        @if(Request::is('id/produk/kid'))
           @foreach($produkKid as $kid)
           <li>
             <div class="contain">
@@ -60,7 +60,7 @@
           @endforeach
         @endif
         
-        @if(Request::is('produk/men'))
+        @if(Request::is('id/produk/men'))
           @foreach($produkMen as $men)
           <li>
             <div class="contain">
@@ -79,7 +79,7 @@
           @endforeach
         @endif
         
-        @if(Request::is('produk/ladies'))
+        @if(Request::is('id/produk/ladies'))
           @foreach($produkLadies as $ladies)
           <li>
             <div class="contain">
@@ -101,16 +101,16 @@
     </div><!-- /.product -->
     <div class="row text-center">
       <div class="col-lg-0">
-        @if(Request::is('produk'))
+        @if(Request::is('id/produk'))
           {{ $dataProduk->links('pagination::bootstrap-4') }}
         @endif
-        @if(Request::is('produk/kid'))
+        @if(Request::is('id/produk/kid'))
           {{ $produkKid->links('pagination::bootstrap-4') }}
         @endif
-        @if(Request::is('produk/men'))
+        @if(Request::is('id/produk/men'))
           {{ $produkMen->links('pagination::bootstrap-4') }}
         @endif
-        @if(Request::is('produk/ladies'))
+        @if(Request::is('id/produk/ladies'))
           {{ $produkLadies->links('pagination::bootstrap-4') }}
         @endif
       </div>

@@ -16,7 +16,7 @@
             <h1 id="textSlider1" class="wow" style="visibility: visible; animation-name: fadeIn; animation-duration: 3s; animation-delay: .2s;"></h1>
             <p id="textSlider2" class="wow" style="visibility: visible; animation-name: fadeIn; animation-duration: 3s; animation-delay: .2s;"></p>
             <div class="s-btn wow" style="visibility: visible;animation-name: fadeInUp;animation-duration: .5s; animation-delay: .5s;">
-              <a href="/tentang-kami" class="btn btn-default">Selengkapnya</a>
+              <a href="/id/tentang-kami" class="btn btn-default">Selengkapnya</a>
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
             <h1 id="textSlider3" class="wow" style="visibility: visible; animation-name: fadeIn; animation-duration: 3s; animation-delay: .2s;"></h1>
             <p id="textSlider4" class="wow" style="visibility: visible; animation-name: fadeIn; animation-duration: 3s; animation-delay: .2s;"></p>
             <div class="s-btn wow" style="visibility: visible;animation-name: fadeInUp;animation-duration: .5s; animation-delay: .5s;">
-              <a href="/tentang-kami" class="btn btn-default">Selengkapnya</a>
+              <a href="/id/tentang-kami" class="btn btn-default">Selengkapnya</a>
             </div>
           </div>
         </div>
@@ -167,7 +167,7 @@
                 <h5>Siapa Kami?</h5>
                 @foreach($aboutUs as $about)
                 <div class="pl-txt">
-                  <p>{{ Str::words(strip_tags($about->deskripsi), 25, ' [...]') }} <a href="/tentang-kami">Selengkapnya</a></p>
+                  <p>{{ Str::words(strip_tags($about->deskripsi), 25, ' [...]') }} <a href="/id/tentang-kami">Selengkapnya</a></p>
                 </div>
                 <div class="p-txt" style="margin-top:1rem;">
                   <p>Visi :</p>
@@ -229,7 +229,7 @@
               <div class="contain">
                 <div class="lp-img"><img src="{{ asset('gambar-blog/'.$blog->foto) }}" alt="" /></div>
                 <div class="textbox">
-                  <a href="/blog/detail/{{ $blog->slug }}"><i class="fa fa-search"></i></a>
+                  <a href="/id/blog/detail/{{ $blog->slug }}"><i class="fa fa-search"></i></a>
                 </div>
               </div>
               <div class="lp-txt">
@@ -240,7 +240,7 @@
                 <div class="lp-text">
                   <h3><a href="#">{{ $blog->title }}</a></h3>
                   <!-- <span>by <a href="#">{{ strtoupper($blog->userlog) }}</a> </span> -->
-                  <p>{{ Str::words(strip_tags($blog->deskripsi), 15, ' [...]') }}<a href="/blog/detail/{{ $blog->slug }}">&nbsp;Selengkapnya</a></p>
+                  <p>{{ Str::words(strip_tags($blog->deskripsi), 15, ' [...]') }}<a href="/id/blog/detail/{{ $blog->slug }}">&nbsp;Selengkapnya</a></p>
                 </div>
               </div>
             </div>

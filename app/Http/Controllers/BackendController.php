@@ -970,6 +970,7 @@ class BackendController extends Controller
             $validatedData = $request->validate([
                 'username' => '',
                 'nama' => '',
+                'password' => '',
                 'hak_akses' => ''
             ]);
 
